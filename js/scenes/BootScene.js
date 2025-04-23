@@ -20,6 +20,9 @@ export class BootScene extends Phaser.Scene {
     // Get the configuration from the cache
     const config = this.cache.json.get("story-config");
 
+    // Log the configuration
+    console.log("Story Configuration:", config);
+
     // Store the loaded configuration in the game's registry for access by all scenes
     this.registry.set("config", config);
 

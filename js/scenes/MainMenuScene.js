@@ -13,6 +13,7 @@ export class MainMenuScene extends Phaser.Scene {
   create() {
     // Get configuration for this scene
     const config = this.registry.get("config");
+    console.log(config);
     const sceneConfig = config.scenes.mainMenu;
 
     // Initialize audio manager
