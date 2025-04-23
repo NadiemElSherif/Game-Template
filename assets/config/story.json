@@ -1,497 +1,307 @@
-export const config = {
-  gameSettings: {
-    width: 800,
-    height: 600,
-    defaultFont: "Arial",
-    defaultFontSize: 18,
-    defaultTextColor: "#ffffff",
-    initialScene: "mainMenu",
-    defaultAudio: {
-      bgm: "main_theme",
-      volume: 0.7,
-      fadeTime: 1000,
-    },
+{
+  "gameSettings": {
+    "width": 800,
+    "height": 600,
+    "defaultFont": "Arial",
+    "defaultFontSize": 18,
+    "defaultTextColor": "#ffffff",
+    "initialScene": "mainMenu",
+    "defaultAudio": {
+      "bgm": "main_theme",
+      "volume": 0.7,
+      "fadeTime": 1000
+    }
   },
-  characters: {
-    positions: {
-      left: 200,
-      right: 600,
+  "characters": {
+    "positions": {
+      "left": 200,
+      "right": 600
     },
-    yOffset: 50,
-    maxHeight: 350,
+    "yOffset": 50,
+    "maxHeight": 350
   },
-  scenes: {
-    mainMenu: {
-      type: "MainMenuScene",
-      background: "menu_bg",
-      audio: {
-        bgm: "menu_theme",
-        volume: 0.6,
+  "scenes": {
+    "mainMenu": {
+      "type": "MainMenuScene",
+      "background": "menu_bg",
+      "audio": {
+        "bgm": "main_theme",
+        "volume": 0.6
       },
-      button: {
-        x: 400,
-        y: 350,
-        image: "start_button",
-        text: "Start Story",
-        sfx: "button_click",
-        nextScene: "intro",
+      "button": {
+        "x": 400,
+        "y": 350,
+        "image": "start_button",
+        "text": "Start Story",
+        "sfx": "button_click",
+        "nextScene": "intro"
       },
-      title: {
-        text: "Forest Adventures",
-        x: 400,
-        y: 200,
-        fontSize: 48,
-        fontFamily: "Georgia",
-        color: "#ffff00",
-      },
+      "title": {
+        "text": "My Simple Story",
+        "x": 400,
+        "y": 200,
+        "fontSize": 48,
+        "fontFamily": "Arial",
+        "color": "#ffffff"
+      }
     },
-    intro: {
-      type: "InfoScene",
-      background: "intro_bg",
-      audio: {
-        bgm: "intro_theme",
-        volume: 0.5,
-        fadeTime: 2000,
+    "intro": {
+      "type": "InfoScene",
+      "background": "intro_bg",
+      "audio": {
+        "bgm": "intro_theme",
+        "volume": 0.5
       },
-      textArea: {
-        x: 100,
-        y: 150,
-        width: 600,
-        height: 300,
-        padding: 20,
-        backgroundColor: "rgba(0, 0, 0, 0.7)",
-        content: [
-          "Deep in the enchanted forest, legends speak of ancient magic and forgotten treasures. For centuries, travelers have sought these mysteries, but few have returned to tell their tales.",
-          "You are a young adventurer, drawn to these woods by stories of wonder and peril. Your journey begins on a misty morning, as you stand at the edge of the forest, ready to discover its secrets.",
-        ],
+      "textArea": {
+        "x": 100,
+        "y": 150,
+        "width": 600,
+        "height": 300,
+        "padding": 20,
+        "backgroundColor": "rgba(0, 0, 0, 0.7)",
+        "content": [
+          "Welcome to my simple visual novel example.\n\nThis is a basic story to test the Phaser 3 Visual Storytelling Engine.",
+          "Let's meet our characters and begin our adventure!"
+        ]
       },
-      button: {
-        x: 650,
-        y: 500,
-        image: "next_button",
-        text: "Begin Journey",
-        sfx: "button_click",
-        nextScene: "chapter1",
-      },
+      "button": {
+        "x": 650,
+        "y": 500,
+        "image": "next_button",
+        "text": "Next",
+        "sfx": "button_click",
+        "nextScene": "conversation"
+      }
     },
-    chapter1: {
-      type: "DialogueScene",
-      globalBackground: "forest_edge_bg",
-      audio: {
-        bgm: "forest_ambient",
-        volume: 0.4,
+    "conversation": {
+      "type": "DialogueScene",
+      "globalBackground": "room_bg",
+      "audio": {
+        "bgm": "conversation_theme",
+        "volume": 0.4
       },
-      textBox: {
-        background: "textbox_bg",
-        x: 50,
-        y: 400,
-        width: 700,
-        height: 150,
-        padding: 20,
+      "textBox": {
+        "background": "textbox_bg",
+        "x": 50,
+        "y": 400,
+        "width": 700,
+        "height": 150,
+        "padding": 20
       },
-      button: {
-        x: 700,
-        y: 530,
-        image: "next_arrow",
-        sfx: "page_turn",
+      "button": {
+        "x": 700,
+        "y": 530,
+        "image": "next_arrow",
+        "sfx": "page_turn"
       },
-      pages: [
+      "pages": [
         {
-          pageId: "ch1_1",
-          backgroundTop: null,
-          characters: [
+          "pageId": "page1",
+          "backgroundTop": null,
+          "characters": [
             {
-              image: "hero_neutral",
-              position: "left",
-            },
+              "image": "character_a",
+              "position": "left"
+            }
           ],
-          text: "The forest looms before you, ancient trees reaching toward the sky. A narrow path winds into the shadows, inviting and mysterious.",
-          nextAction: {
-            type: "update",
-            nextPageId: "ch1_2",
-          },
+          "text": "Hello there! My name is Alex. I'm one of the characters in this simple story.",
+          "nextAction": {
+            "type": "update",
+            "nextPageId": "page2"
+          }
         },
         {
-          pageId: "ch1_2",
-          backgroundTop: null,
-          characters: [
+          "pageId": "page2",
+          "backgroundTop": null,
+          "characters": [
             {
-              image: "hero_determined",
-              position: "left",
+              "image": "character_a",
+              "position": "left"
             },
+            {
+              "image": "character_b",
+              "position": "right"
+            }
           ],
-          text: "You take a deep breath and step forward. The sounds of the outside world fade behind you as you enter the realm of shadow and light.",
-          nextAction: {
-            type: "update",
-            nextPageId: "ch1_3",
-          },
+          "text": "And I'm Taylor! Nice to meet you!",
+          "nextAction": {
+            "type": "update",
+            "nextPageId": "page3"
+          }
         },
         {
-          pageId: "ch1_3",
-          backgroundTop: "light_rays",
-          audio: {
-            bgm: "mysterious_encounter",
-            volume: 0.6,
-            fadeTime: 3000,
-          },
-          characters: [
+          "pageId": "page3",
+          "backgroundTop": null,
+          "characters": [
             {
-              image: "hero_surprised",
-              position: "left",
+              "image": "character_a_smile",
+              "position": "left"
             },
+            {
+              "image": "character_b",
+              "position": "right"
+            }
           ],
-          text: "Suddenly, a beam of light breaks through the canopy, illuminating a strange marking on a nearby tree. It seems to **glow** with an inner light.",
-          nextAction: {
-            type: "update",
-            nextPageId: "ch1_4",
-          },
+          "text": "Together, we're going to show you how this visual novel engine works.",
+          "nextAction": {
+            "type": "update",
+            "nextPageId": "page4"
+          }
         },
         {
-          pageId: "ch1_4",
-          backgroundTop: "light_rays",
-          characters: [
+          "pageId": "page4",
+          "backgroundTop": null,
+          "audio": {
+            "bgm": "exciting_theme",
+            "volume": 0.5,
+            "fadeTime": 1000
+          },
+          "characters": [
             {
-              image: "hero_curious",
-              position: "left",
+              "image": "character_a_excited",
+              "position": "left"
             },
+            {
+              "image": "character_b_excited",
+              "position": "right"
+            }
           ],
-          text: "As you approach the marking, you hear a rustling in the bushes to your right.",
-          nextAction: {
-            type: "update",
-            nextPageId: "ch1_5",
-          },
-        },
-        {
-          pageId: "ch1_5",
-          backgroundTop: "light_rays",
-          characters: [
-            {
-              image: "hero_alert",
-              position: "left",
-            },
-            {
-              image: "guide_hidden",
-              position: "right",
-            },
-          ],
-          text: "You freeze, hand moving instinctively to your pack. Something—or someone—is watching you.",
-          nextAction: {
-            type: "update",
-            nextPageId: "ch1_6",
-          },
-        },
-        {
-          pageId: "ch1_6",
-          backgroundTop: null,
-          characters: [
-            {
-              image: "hero_surprised",
-              position: "left",
-            },
-            {
-              image: "guide_reveal",
-              position: "right",
-            },
-          ],
-          audio: {
-            bgm: "guide_theme",
-            volume: 0.5,
-            fadeTime: 1500,
-          },
-          text: "A figure emerges from the foliage—not a beast, but a person wrapped in a green cloak, face partially hidden beneath a hood.",
-          nextAction: {
-            type: "update",
-            nextPageId: "ch1_7",
-          },
-        },
-        {
-          pageId: "ch1_7",
-          backgroundTop: null,
-          characters: [
-            {
-              image: "hero_cautious",
-              position: "left",
-            },
-            {
-              image: "guide_smile",
-              position: "right",
-            },
-          ],
-          text: '"**Well met, traveler,**" the stranger says with a gentle smile. "Few venture this far into the Whispering Woods. Might I ask what brings you here?"',
-          nextAction: {
-            type: "transition",
-            targetScene: "forest_info",
-          },
-        },
-      ],
+          "text": "This is an example of changing music during a scene! We can also use **bold text** for emphasis!",
+          "nextAction": {
+            "type": "transition",
+            "targetScene": "end"
+          }
+        }
+      ]
     },
-    forest_info: {
-      type: "InfoScene",
-      background: "deep_forest_bg",
-      audio: {
-        bgm: "lore_theme",
-        volume: 0.4,
+    "end": {
+      "type": "InfoScene",
+      "background": "end_bg",
+      "audio": {
+        "bgm": "ending_theme",
+        "volume": 0.6
       },
-      textArea: {
-        x: 100,
-        y: 100,
-        width: 600,
-        height: 400,
-        padding: 25,
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
-        content: [
-          "The Whispering Woods are ancient beyond memory. They are said to have existed before humans walked the earth, a place where the veil between worlds grows thin.",
-          "Those who dwell in nearby villages speak of strange lights among the trees at night, and voices carried on the wind that speak words from long-forgotten tongues.",
-          "Some claim the forest itself is alive and aware, watching those who walk beneath its boughs, testing their hearts and intentions.",
-        ],
+      "textArea": {
+        "x": 100,
+        "y": 150,
+        "width": 600,
+        "height": 300,
+        "padding": 20,
+        "backgroundColor": "rgba(0, 0, 0, 0.7)",
+        "content": [
+          "That's the end of our simple demo!\n\nYou've seen how scenes transition, characters appear, and text displays."
+        ]
       },
-      button: {
-        x: 650,
-        y: 520,
-        image: "continue_button",
-        text: "Continue",
-        sfx: "button_click",
-        nextScene: "chapter1_continued",
-      },
+      "button": {
+        "x": 650,
+        "y": 500,
+        "image": "next_button",
+        "text": "Credits",
+        "sfx": "button_click",
+        "nextScene": "credits"
+      }
     },
-    chapter1_continued: {
-      type: "DialogueScene",
-      globalBackground: "forest_path_bg",
-      audio: {
-        bgm: "guide_theme",
-        volume: 0.5,
+    "credits": {
+      "type": "CreditsScene",
+      "background": "credits_bg",
+      "audio": {
+        "bgm": "credits_theme",
+        "volume": 0.5,
+        "fadeTime": 2000
       },
-      textBox: {
-        background: "textbox_bg",
-        x: 50,
-        y: 400,
-        width: 700,
-        height: 150,
-        padding: 20,
+      "content": "Simple Visual Novel\n\nCreated with\nPhaser 3 Visual Storytelling Engine\n\nThank you for playing!",
+      "scrollSpeed": 1.0,
+      "textStyle": {
+        "fontFamily": "Arial",
+        "fontSize": 24,
+        "color": "#ffffff",
+        "align": "center"
       },
-      button: {
-        x: 700,
-        y: 530,
-        image: "next_arrow",
-        sfx: "page_turn",
-      },
-      pages: [
-        {
-          pageId: "ch1_cont_1",
-          backgroundTop: null,
-          characters: [
-            {
-              image: "hero_determined",
-              position: "left",
-            },
-            {
-              image: "guide_neutral",
-              position: "right",
-            },
-          ],
-          text: "You explain your quest to the forest guide, who listens intently, nodding occasionally.",
-          nextAction: {
-            type: "update",
-            nextPageId: "ch1_cont_2",
-          },
-        },
-        {
-          pageId: "ch1_cont_2",
-          backgroundTop: null,
-          characters: [
-            {
-              image: "hero_listening",
-              position: "left",
-            },
-            {
-              image: "guide_explaining",
-              position: "right",
-            },
-          ],
-          text: "The guide shares their knowledge of the forest's mysteries and dangers, offering to help you on your journey.",
-          nextAction: {
-            type: "update",
-            nextPageId: "ch1_cont_3",
-          },
-        },
-        {
-          pageId: "ch1_cont_3",
-          backgroundTop: "magic_glow",
-          audio: {
-            bgm: "magical_moment",
-            volume: 0.6,
-            fadeTime: 2000,
-          },
-          characters: [
-            {
-              image: "hero_amazed",
-              position: "left",
-            },
-            {
-              image: "guide_magic",
-              position: "right",
-            },
-          ],
-          text: "The guide reaches into a pouch and pulls out a handful of glowing dust. With a gentle breath, they send it spiraling into the air, where it forms strange, shifting patterns.",
-          nextAction: {
-            type: "transition",
-            targetScene: "credits",
-          },
-        },
-      ],
-    },
-    credits: {
-      type: "CreditsScene",
-      background: "credits_bg",
-      audio: {
-        bgm: "ending_theme",
-        volume: 0.7,
-        fadeTime: 3000,
-      },
-      content:
-        "Forest Adventures\n\nA Visual Novel Demo\n\nStory by: Your Name\n\nArtwork: Your Sources\n\nMusic: Your Composers\n\nCreated with the Phaser 3 Visual Storytelling Engine\n\nThank you for playing!\n\nTo be continued...",
-      scrollSpeed: 1.2,
-      textStyle: {
-        fontFamily: "Georgia",
-        fontSize: 24,
-        color: "#ffffff",
-        align: "center",
-      },
-      exitBehavior: {
-        action: "transition",
-        targetScene: "mainMenu",
-        delay: 2000,
-      },
-    },
+      "exitBehavior": {
+        "action": "transition",
+        "targetScene": "mainMenu",
+        "delay": 2000
+      }
+    }
   },
-  assets: {
-    backgrounds: [
-      { key: "menu_bg", path: "assets/images/backgrounds/menu.png" },
-      { key: "intro_bg", path: "assets/images/backgrounds/intro.png" },
+  "assets": {
+    "backgrounds": [
+      { "key": "menu_bg", "path": "assets/images/backgrounds/menu_bg.png" },
+      { "key": "intro_bg", "path": "assets/images/backgrounds/intro_bg.png" },
+      { "key": "room_bg", "path": "assets/images/backgrounds/room_bg.png" },
+      { "key": "end_bg", "path": "assets/images/backgrounds/end_bg.png" },
       {
-        key: "forest_edge_bg",
-        path: "assets/images/backgrounds/forest_edge.png",
-      },
-      {
-        key: "deep_forest_bg",
-        path: "assets/images/backgrounds/deep_forest.png",
-      },
-      {
-        key: "forest_path_bg",
-        path: "assets/images/backgrounds/forest_path.png",
-      },
-      { key: "light_rays", path: "assets/images/backgrounds/light_rays.png" },
-      { key: "magic_glow", path: "assets/images/backgrounds/magic_glow.png" },
-      { key: "credits_bg", path: "assets/images/backgrounds/credits.png" },
+        "key": "credits_bg",
+        "path": "assets/images/backgrounds/credits_bg.png"
+      }
     ],
-    characters: [
+    "characters": [
       {
-        key: "hero_neutral",
-        path: "assets/images/characters/hero_neutral.png",
+        "key": "character_a",
+        "path": "assets/images/characters/character_a.png"
       },
       {
-        key: "hero_determined",
-        path: "assets/images/characters/hero_determined.png",
+        "key": "character_a_smile",
+        "path": "assets/images/characters/character_a_smile.png"
       },
       {
-        key: "hero_surprised",
-        path: "assets/images/characters/hero_surprised.png",
+        "key": "character_a_excited",
+        "path": "assets/images/characters/character_a_excited.png"
       },
       {
-        key: "hero_curious",
-        path: "assets/images/characters/hero_curious.png",
-      },
-      { key: "hero_alert", path: "assets/images/characters/hero_alert.png" },
-      {
-        key: "hero_cautious",
-        path: "assets/images/characters/hero_cautious.png",
+        "key": "character_b",
+        "path": "assets/images/characters/character_b.png"
       },
       {
-        key: "hero_listening",
-        path: "assets/images/characters/hero_listening.png",
-      },
-      { key: "hero_amazed", path: "assets/images/characters/hero_amazed.png" },
-      {
-        key: "guide_hidden",
-        path: "assets/images/characters/guide_hidden.png",
-      },
-      {
-        key: "guide_reveal",
-        path: "assets/images/characters/guide_reveal.png",
-      },
-      { key: "guide_smile", path: "assets/images/characters/guide_smile.png" },
-      {
-        key: "guide_neutral",
-        path: "assets/images/characters/guide_neutral.png",
-      },
-      {
-        key: "guide_explaining",
-        path: "assets/images/characters/guide_explaining.png",
-      },
-      { key: "guide_magic", path: "assets/images/characters/guide_magic.png" },
+        "key": "character_b_excited",
+        "path": "assets/images/characters/character_b_excited.png"
+      }
     ],
-    ui: [
-      { key: "start_button", path: "assets/images/ui/start_button.png" },
-      { key: "next_button", path: "assets/images/ui/next_button.png" },
-      { key: "continue_button", path: "assets/images/ui/continue_button.png" },
-      { key: "next_arrow", path: "assets/images/ui/next_arrow.png" },
-      { key: "textbox_bg", path: "assets/images/ui/textbox.png" },
-      { key: "loading-bar", path: "assets/images/ui/loading-bar.png" },
-      { key: "loading-bg", path: "assets/images/ui/loading-bg.png" },
+    "ui": [
+      { "key": "start_button", "path": "assets/images/ui/start_button.png" },
+      { "key": "next_button", "path": "assets/images/ui/next_button.png" },
+      { "key": "next_arrow", "path": "assets/images/ui/next_arrow.png" },
+      { "key": "textbox_bg", "path": "assets/images/ui/textbox_bg.png" },
+      { "key": "loading-bar", "path": "assets/images/ui/loading-bar.png" },
+      { "key": "loading-bg", "path": "assets/images/ui/loading-bg.png" }
     ],
-    audio: {
-      bgm: [
+    "audio": {
+      "bgm": [
         {
-          key: "main_theme",
-          path: "assets/audio/music/main_theme.mp3",
-          loop: true,
+          "key": "main_theme",
+          "path": "assets/audio/music/main_theme.mp3",
+          "loop": true
         },
         {
-          key: "menu_theme",
-          path: "assets/audio/music/menu_theme.mp3",
-          loop: true,
+          "key": "intro_theme",
+          "path": "assets/audio/music/intro_theme.mp3",
+          "loop": true
         },
         {
-          key: "intro_theme",
-          path: "assets/audio/music/intro_theme.mp3",
-          loop: true,
+          "key": "conversation_theme",
+          "path": "assets/audio/music/conversation_theme.mp3",
+          "loop": true
         },
         {
-          key: "forest_ambient",
-          path: "assets/audio/music/forest_ambient.mp3",
-          loop: true,
+          "key": "exciting_theme",
+          "path": "assets/audio/music/exciting_theme.mp3",
+          "loop": true
         },
         {
-          key: "mysterious_encounter",
-          path: "assets/audio/music/mysterious_encounter.mp3",
-          loop: true,
+          "key": "ending_theme",
+          "path": "assets/audio/music/ending_theme.mp3",
+          "loop": true
         },
         {
-          key: "guide_theme",
-          path: "assets/audio/music/guide_theme.mp3",
-          loop: true,
-        },
-        {
-          key: "lore_theme",
-          path: "assets/audio/music/lore_theme.mp3",
-          loop: true,
-        },
-        {
-          key: "magical_moment",
-          path: "assets/audio/music/magical_moment.mp3",
-          loop: true,
-        },
-        {
-          key: "ending_theme",
-          path: "assets/audio/music/ending_theme.mp3",
-          loop: true,
-        },
+          "key": "credits_theme",
+          "path": "assets/audio/music/credits_theme.mp3",
+          "loop": true
+        }
       ],
-      sfx: [
-        { key: "button_click", path: "assets/audio/sfx/button_click.mp3" },
-        { key: "page_turn", path: "assets/audio/sfx/page_turn.mp3" },
-        { key: "magic_sparkle", path: "assets/audio/sfx/magic_sparkle.mp3" },
-      ],
-    },
-  },
-};
+      "sfx": [
+        { "key": "button_click", "path": "assets/audio/sfx/button_click.mp3" },
+        { "key": "page_turn", "path": "assets/audio/sfx/page_turn.mp3" }
+      ]
+    }
+  }
+}

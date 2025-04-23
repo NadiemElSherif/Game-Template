@@ -26,6 +26,6 @@ export const config = {
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
   audio: {
-    disableWebAudio: false,
+    disableWebAudio: true,
   },
 };

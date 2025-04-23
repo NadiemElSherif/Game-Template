@@ -8,14 +8,24 @@ export class AudioManager {
    * @param {Phaser.Scene} scene - The scene this manager belongs to
    */
   constructor(scene) {
-    this.scene = scene;
-    this.currentBGM = null;
-    this.config = scene.registry.get("config");
-    this.defaultSettings = this.config.gameSettings.defaultAudio || {
-      bgm: null,
-      volume: 0.7,
-      fadeTime: 1000,
-    };
+    try {
+      this.scene = scene;
+      this.currentBGM = null;
+      this.config = scene.registry.get("config");
+      this.defaultSettings = this.config.gameSettings.defaultAudio || {
+        bgm: null,
+        volume: 0.7,
+        fadeTime: 1000,
+      };
+    } catch (error) {
+      console.error("Error initializing AudioManager:", error);
+      // Set safe defaults if initialization fails
+      this.defaultSettings = {
+        bgm: null,
+        volume: 0.7,
+        fadeTime: 1000,
+      };
+    }
   }
 
   /**
@@ -26,50 +36,55 @@ export class AudioManager {
    * @param {number} settings.fadeTime - Fade time in milliseconds
    */
   playBGM(key, settings = {}) {
-    // If key is null or 'none', stop music
-    if (!key || key === "none") {
-      this.stopBGM(settings.fadeTime || this.defaultSettings.fadeTime);
-      return;
-    }
-
-    // If already playing this track, just adjust volume if needed
-    if (this.currentBGM && this.currentBGM.key === key) {
-      if (settings.volume !== undefined) {
-        this.currentBGM.setVolume(settings.volume);
+    try {
+      // If key is null or 'none', stop music
+      if (!key || key === "none") {
+        this.stopBGM(settings.fadeTime || this.defaultSettings.fadeTime);
+        return;
       }
-      return;
-    }
 
-    // Stop current BGM if playing
-    this.stopBGM(settings.fadeTime || this.defaultSettings.fadeTime);
+      // If already playing this track, just adjust volume if needed
+      if (this.currentBGM && this.currentBGM.key === key) {
+        if (settings.volume !== undefined) {
+          this.currentBGM.setVolume(settings.volume);
+        }
+        return;
+      }
 
-    // Set up volume and fade
-    const volume =
-      settings.volume !== undefined
-        ? settings.volume
-        : this.defaultSettings.volume;
-    const fadeTime =
-      settings.fadeTime !== undefined
-        ? settings.fadeTime
-        : this.defaultSettings.fadeTime;
+      // Stop current BGM if playing
+      this.stopBGM(settings.fadeTime || this.defaultSettings.fadeTime);
 
-    // Play new BGM
-    this.currentBGM = this.scene.sound.add(key, {
-      volume: 0,
-      loop: true,
-    });
+      // Set up volume and fade
+      const volume =
+        settings.volume !== undefined
+          ? settings.volume
+          : this.defaultSettings.volume;
+      const fadeTime =
+        settings.fadeTime !== undefined
+          ? settings.fadeTime
+          : this.defaultSettings.fadeTime;
 
-    this.currentBGM.play();
-
-    // Fade in
-    if (fadeTime > 0) {
-      this.scene.tweens.add({
-        targets: this.currentBGM,
-        volume: volume,
-        duration: fadeTime,
+      // Play new BGM
+      this.currentBGM = this.scene.sound.add(key, {
+        volume: 0,
+        loop: true,
       });
-    } else {
-      this.currentBGM.setVolume(volume);
+
+      this.currentBGM.play();
+
+      // Fade in
+      if (fadeTime > 0) {
+        this.scene.tweens.add({
+          targets: this.currentBGM,
+          volume: volume,
+          duration: fadeTime,
+        });
+      } else {
+        this.currentBGM.setVolume(volume);
+      }
+    } catch (error) {
+      console.error("Error playing background music:", error);
+      // Gracefully handle the error without breaking the game
     }
   }
 
@@ -78,22 +93,32 @@ export class AudioManager {
    * @param {number} fadeTime - Time to fade out in milliseconds
    */
   stopBGM(fadeTime = 1000) {
-    if (!this.currentBGM) return;
+    try {
+      if (!this.currentBGM) return;
 
-    if (fadeTime > 0) {
-      // Fade out
-      this.scene.tweens.add({
-        targets: this.currentBGM,
-        volume: 0,
-        duration: fadeTime,
-        onComplete: () => {
-          this.currentBGM.stop();
-          this.currentBGM = null;
-        },
-      });
-    } else {
-      // Stop immediately
-      this.currentBGM.stop();
+      if (fadeTime > 0) {
+        // Fade out
+        this.scene.tweens.add({
+          targets: this.currentBGM,
+          volume: 0,
+          duration: fadeTime,
+          onComplete: () => {
+            try {
+              this.currentBGM.stop();
+              this.currentBGM = null;
+            } catch (error) {
+              console.error("Error stopping background music:", error);
+              this.currentBGM = null;
+            }
+          },
+        });
+      } else {
+        // Stop immediately
+        this.currentBGM.stop();
+        this.currentBGM = null;
+      }
+    } catch (error) {
+      console.error("Error stopping background music:", error);
       this.currentBGM = null;
     }
   }
@@ -104,8 +129,13 @@ export class AudioManager {
    * @param {number} volume - Volume level (0.0 to 1.0)
    */
   playSFX(key, volume = 1) {
-    if (!key) return;
-    this.scene.sound.play(key, { volume });
+    try {
+      if (!key) return;
+      this.scene.sound.play(key, { volume });
+    } catch (error) {
+      console.error("Error playing sound effect:", error);
+      // Gracefully handle the error without breaking the game
+    }
   }
 
   /**
@@ -115,26 +145,32 @@ export class AudioManager {
    * @returns {Object} - The merged audio configuration
    */
   getAudioConfig(sceneAudio, pageAudio) {
-    // Start with default settings
-    const audioConfig = { ...this.defaultSettings };
+    try {
+      // Start with default settings
+      const audioConfig = { ...this.defaultSettings };
 
-    // Apply scene-level settings if available
-    if (sceneAudio) {
-      if (sceneAudio.bgm) audioConfig.bgm = sceneAudio.bgm;
-      if (sceneAudio.volume !== undefined)
-        audioConfig.volume = sceneAudio.volume;
-      if (sceneAudio.fadeTime !== undefined)
-        audioConfig.fadeTime = sceneAudio.fadeTime;
+      // Apply scene-level settings if available
+      if (sceneAudio) {
+        if (sceneAudio.bgm) audioConfig.bgm = sceneAudio.bgm;
+        if (sceneAudio.volume !== undefined)
+          audioConfig.volume = sceneAudio.volume;
+        if (sceneAudio.fadeTime !== undefined)
+          audioConfig.fadeTime = sceneAudio.fadeTime;
+      }
+
+      // Apply page-level settings if available (overrides scene settings)
+      if (pageAudio) {
+        if (pageAudio.bgm) audioConfig.bgm = pageAudio.bgm;
+        if (pageAudio.volume !== undefined)
+          audioConfig.volume = pageAudio.volume;
+        if (pageAudio.fadeTime !== undefined)
+          audioConfig.fadeTime = pageAudio.fadeTime;
+      }
+
+      return audioConfig;
+    } catch (error) {
+      console.error("Error getting audio configuration:", error);
+      return { ...this.defaultSettings };
     }
-
-    // Apply page-level settings if available (overrides scene settings)
-    if (pageAudio) {
-      if (pageAudio.bgm) audioConfig.bgm = pageAudio.bgm;
-      if (pageAudio.volume !== undefined) audioConfig.volume = pageAudio.volume;
-      if (pageAudio.fadeTime !== undefined)
-        audioConfig.fadeTime = pageAudio.fadeTime;
-    }
-
-    return audioConfig;
   }
 }

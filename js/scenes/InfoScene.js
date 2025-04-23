@@ -27,8 +27,10 @@ export class InfoScene extends Phaser.Scene {
   create() {
     // Get configuration for this scene
     const config = this.registry.get("config");
-    const sceneConfig = config.scenes[this.scene.key];
+    console.log(this.scene, config);
 
+    const sceneConfig = config.scenes[this.scene.key];
+    console.log(sceneConfig);
     // Initialize managers
     this.audioManager = new AudioManager(this);
 
@@ -80,7 +82,7 @@ export class InfoScene extends Phaser.Scene {
    * @param {Object} gameSettings - The global game settings
    */
   createBackground(sceneConfig, gameSettings) {
-    if (!sceneConfig.background) return;
+    if (!sceneConfig?.background) return;
 
     const bg = this.add
       .image(0, 0, sceneConfig.background)
