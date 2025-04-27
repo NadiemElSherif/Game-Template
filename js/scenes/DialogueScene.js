@@ -26,7 +26,8 @@ export class DialogueScene extends Phaser.Scene {
   create() {
     // Get configuration
     const config = this.registry.get("config");
-    const sceneConfig = config.scenes[this.scene.key];
+    const nextSceneKey = this.registry.get("nextSceneKey");
+    const sceneConfig = config.scenes[nextSceneKey || this.scene.key];
 
     // Store pages for easy access
     this.pages = sceneConfig.pages || [];
@@ -47,7 +48,7 @@ export class DialogueScene extends Phaser.Scene {
     );
 
     // Create next button
-    this.nextButton = this.createButton(sceneConfig.button);
+    this.nextButton = this.createButton(config, sceneConfig.button);
 
     // Set initial page if not specified
     if (!this.currentPageId && this.pages.length > 0) {
@@ -118,7 +119,7 @@ export class DialogueScene extends Phaser.Scene {
    * Create the next button
    * @param {Object} buttonConfig - The button configuration
    */
-  createButton(buttonConfig) {
+  createButton(config, buttonConfig) {
     if (!buttonConfig) return null;
 
     // Create the button sprite
@@ -146,7 +147,7 @@ export class DialogueScene extends Phaser.Scene {
       }
 
       // Handle the next action
-      this.handleNextAction();
+      this.handleNextAction(config);
     });
 
     // Add hover effect
@@ -224,7 +225,7 @@ export class DialogueScene extends Phaser.Scene {
   /**
    * Handle what happens when the next button is clicked
    */
-  handleNextAction() {
+  handleNextAction(config) {
     // Find the current page
     const page = this.pages.find((p) => p.pageId === this.currentPageId);
 
@@ -238,8 +239,9 @@ export class DialogueScene extends Phaser.Scene {
       // Stay in same scene, just update to new page
       this.displayPage(action.nextPageId);
     } else if (action.type === "transition") {
-      // Transition to a different scene
-      this.scene.start(action.targetScene);
+      // Store the next scene key in registry
+      this.registry.set("nextSceneKey", action.targetScene);
+      this.scene.start(config?.scenes[action.targetScene].type);
     }
   }
 }

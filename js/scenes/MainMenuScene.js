@@ -11,10 +11,11 @@ export class MainMenuScene extends Phaser.Scene {
   }
 
   create() {
+    console.log(this.scene.key);
     // Get configuration for this scene
     const config = this.registry.get("config");
-    console.log(config);
-    const sceneConfig = config.scenes.mainMenu;
+    const nextSceneKey = this.registry.get("nextSceneKey");
+    const sceneConfig = config.scenes[nextSceneKey || this.scene.key];
 
     // Initialize audio manager
     this.audioManager = new AudioManager(this);
@@ -28,7 +29,7 @@ export class MainMenuScene extends Phaser.Scene {
     }
 
     // Create start button
-    this.createButton(sceneConfig.button, config.gameSettings);
+    this.createButton(config, sceneConfig.button, config.gameSettings);
 
     // Play background music if configured
     if (sceneConfig.audio && sceneConfig.audio.bgm) {
@@ -116,7 +117,7 @@ export class MainMenuScene extends Phaser.Scene {
    * @param {Object} buttonConfig - The button configuration
    * @param {Object} gameSettings - The global game settings
    */
-  createButton(buttonConfig, gameSettings) {
+  createButton(config, buttonConfig, gameSettings) {
     if (!buttonConfig) return;
 
     const x =
@@ -149,7 +150,9 @@ export class MainMenuScene extends Phaser.Scene {
 
       // Start the next scene
       if (buttonConfig.nextScene) {
-        this.scene.start(buttonConfig.nextScene);
+        // Store the next scene key in registry
+        this.registry.set("nextSceneKey", buttonConfig.nextScene);
+        this.scene.start(config?.scenes[buttonConfig.nextScene].type);
       }
     });
 

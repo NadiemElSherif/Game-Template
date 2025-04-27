@@ -10,6 +10,9 @@
       "bgm": "main_theme",
       "volume": 0.7,
       "fadeTime": 1000
+    },
+    "bootScene": {
+      "background": "loading-bg"
     }
   },
   "characters": {
@@ -210,7 +213,7 @@
         "fadeTime": 2000
       },
       "content": "Simple Visual Novel\n\nCreated with\nPhaser 3 Visual Storytelling Engine\n\nThank you for playing!",
-      "scrollSpeed": 1.0,
+      "scrollSpeed": 20.0,
       "textStyle": {
         "fontFamily": "Arial",
         "fontSize": 24,
@@ -262,8 +265,8 @@
       { "key": "next_button", "path": "assets/images/ui/next_button.png" },
       { "key": "next_arrow", "path": "assets/images/ui/next_arrow.png" },
       { "key": "textbox_bg", "path": "assets/images/ui/textbox_bg.png" },
-      { "key": "loading-bar", "path": "assets/images/ui/loading-bar.png" },
-      { "key": "loading-bg", "path": "assets/images/ui/loading-bg.png" }
+      { "key": "loading-bg", "path": "assets/images/ui/loading-bg.png" },
+      { "key": "loading-bar-bg", "path": "assets/images/ui/loading-bar-bg.png" }
     ],
     "audio": {
       "bgm": [

@@ -15,7 +15,8 @@ export class CreditsScene extends Phaser.Scene {
   create() {
     // Get configuration for this scene
     const config = this.registry.get("config");
-    const sceneConfig = config.scenes[this.scene.key];
+    const nextSceneKey = this.registry.get("nextSceneKey");
+    const sceneConfig = config.scenes[nextSceneKey || this.scene.key];
 
     // Initialize audio manager
     this.audioManager = new AudioManager(this);
@@ -24,7 +25,7 @@ export class CreditsScene extends Phaser.Scene {
     this.createBackground(sceneConfig, config.gameSettings);
 
     // Create credits text
-    this.createCreditsText(sceneConfig, config.gameSettings);
+    this.createCreditsText(config, sceneConfig, config.gameSettings);
 
     // Play background music if configured
     if (sceneConfig.audio && sceneConfig.audio.bgm) {
@@ -68,7 +69,7 @@ export class CreditsScene extends Phaser.Scene {
    * @param {Object} sceneConfig - The scene configuration
    * @param {Object} gameSettings - The global game settings
    */
-  createCreditsText(sceneConfig, gameSettings) {
+  createCreditsText(config, sceneConfig, gameSettings) {
     if (!sceneConfig.content) return;
 
     // Get display dimensions
@@ -95,7 +96,7 @@ export class CreditsScene extends Phaser.Scene {
     this.creditsText = this.add
       .text(
         width / 2,
-        height + 50, // Start below the screen
+        height + 5, // Start below the screen
         sceneConfig.content,
         textStyle
       )
@@ -112,7 +113,7 @@ export class CreditsScene extends Phaser.Scene {
       ease: "Linear",
       onComplete: () => {
         this.isScrollComplete = true;
-        this.handleExitBehavior(sceneConfig.exitBehavior);
+        this.handleExitBehavior(config, sceneConfig.exitBehavior);
       },
     });
   }
@@ -121,7 +122,7 @@ export class CreditsScene extends Phaser.Scene {
    * Handle what happens when the credits finish scrolling
    * @param {Object} exitBehavior - The exit behavior configuration
    */
-  handleExitBehavior(exitBehavior) {
+  handleExitBehavior(config, exitBehavior) {
     if (!exitBehavior) return;
 
     // Wait for the specified delay
@@ -129,10 +130,14 @@ export class CreditsScene extends Phaser.Scene {
 
     this.time.delayedCall(delay, () => {
       if (exitBehavior.action === "transition" && exitBehavior.targetScene) {
+        // Store the next scene key in registry
+        this.registry.set("nextSceneKey", exitBehavior.targetScene);
+        this.scene.start(config?.scenes[exitBehavior.targetScene].type);
         // Transition to the target scene
-        this.scene.start(exitBehavior.targetScene);
       } else if (exitBehavior.action === "exit") {
         // Exit the game (restart at main menu)
+
+        this.registry.set("nextSceneKey", "MainMenuScene");
         this.scene.start("MainMenuScene");
       }
     });
@@ -154,7 +159,7 @@ export class CreditsScene extends Phaser.Scene {
         const sceneConfig = config.scenes[this.scene.key];
 
         // Handle exit
-        this.handleExitBehavior(sceneConfig.exitBehavior);
+        this.handleExitBehavior(config, sceneConfig.exitBehavior);
       }
     }
   }

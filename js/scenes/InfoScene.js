@@ -27,10 +27,9 @@ export class InfoScene extends Phaser.Scene {
   create() {
     // Get configuration for this scene
     const config = this.registry.get("config");
-    console.log(this.scene, config);
+    const nextSceneKey = this.registry.get("nextSceneKey");
+    const sceneConfig = config.scenes[nextSceneKey || this.scene.key];
 
-    const sceneConfig = config.scenes[this.scene.key];
-    console.log(sceneConfig);
     // Initialize managers
     this.audioManager = new AudioManager(this);
 
@@ -56,7 +55,7 @@ export class InfoScene extends Phaser.Scene {
     this.displayCurrentPage();
 
     // Create next button
-    this.createButton(sceneConfig.button, config.gameSettings);
+    this.createButton(config, sceneConfig.button, config.gameSettings);
 
     // Play background music if configured
     if (sceneConfig.audio && sceneConfig.audio.bgm) {
@@ -131,7 +130,7 @@ export class InfoScene extends Phaser.Scene {
    * @param {Object} buttonConfig - The button configuration
    * @param {Object} gameSettings - The global game settings
    */
-  createButton(buttonConfig, gameSettings) {
+  createButton(config, buttonConfig, gameSettings) {
     if (!buttonConfig) return;
 
     const x =
@@ -168,7 +167,7 @@ export class InfoScene extends Phaser.Scene {
       }
 
       // Handle next page or scene transition
-      this.handleNextAction(buttonConfig);
+      this.handleNextAction(config, buttonConfig);
     });
 
     // Add hover effect
@@ -189,7 +188,7 @@ export class InfoScene extends Phaser.Scene {
    * Handle what happens when the next button is clicked
    * @param {Object} buttonConfig - The button configuration
    */
-  handleNextAction(buttonConfig) {
+  handleNextAction(config, buttonConfig) {
     // Check if there are more pages to display
     if (this.currentPage < this.textContent.length - 1) {
       // Go to next page
@@ -198,7 +197,9 @@ export class InfoScene extends Phaser.Scene {
     } else {
       // No more pages, transition to next scene
       if (buttonConfig.nextScene) {
-        this.scene.start(buttonConfig.nextScene);
+        // Store the next scene key in registry
+        this.registry.set("nextSceneKey", buttonConfig.nextScene);
+        this.scene.start(config?.scenes[buttonConfig.nextScene].type);
       }
     }
   }

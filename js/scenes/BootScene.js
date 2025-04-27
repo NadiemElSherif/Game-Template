@@ -9,8 +9,8 @@ export class BootScene extends Phaser.Scene {
 
   preload() {
     // Load minimal assets needed for the preloader scene
-    this.load.image("loading-bar", "assets/images/ui/loading-bar.png");
     this.load.image("loading-bg", "assets/images/ui/loading-bg.png");
+    this.load.image("loading-bar-bg", "assets/images/ui/loading-bar-bg.png");
 
     // Load the configuration file
     this.load.json("story-config", "assets/config/story.json");
@@ -33,6 +33,16 @@ export class BootScene extends Phaser.Scene {
       // Update the game size based on config
       if (gameSettings.width && gameSettings.height) {
         this.scale.resize(gameSettings.width, gameSettings.height);
+      }
+
+      // Add background if specified in config
+      if (gameSettings.bootScene && gameSettings.bootScene.background) {
+        const bg = this.add.image(
+          this.cameras.main.width / 2,
+          this.cameras.main.height / 2,
+          gameSettings.bootScene.background
+        );
+        bg.setDisplaySize(this.cameras.main.width, this.cameras.main.height);
       }
     }
 

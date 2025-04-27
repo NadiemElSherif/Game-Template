@@ -59,10 +59,10 @@ export class PreloaderScene extends Phaser.Scene {
   create() {
     // Get the initial scene from configuration
     const config = this.registry.get("config");
-    const initialScene = config?.gameSettings?.initialScene || "MainMenuScene";
 
+    this.registry.set("nextSceneKey", config?.gameSettings?.initialScene);
     // Start the initial scene
-    this.scene.start(initialScene);
+    this.scene.start(config?.scenes[config?.gameSettings?.initialScene].type);
   }
 
   createLoadingBar() {
@@ -70,31 +70,43 @@ export class PreloaderScene extends Phaser.Scene {
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
 
-    const loadingBg = this.add.image(width / 2, height / 2, "loading-bg");
+    const gameSettings = this.registry.get("config")?.gameSettings;
+    if (!gameSettings) {
+      console.error("Game settings not found in registry.");
+      return;
+    }
 
-    // Adjust size if needed
+    // Add background if specified in config
+    if (gameSettings.bootScene && gameSettings.bootScene.background) {
+      const bg = this.add.image(
+        this.cameras.main.width / 2,
+        this.cameras.main.height / 2,
+        gameSettings.bootScene.background
+      );
+      bg.setDisplaySize(this.cameras.main.width, this.cameras.main.height);
+    }
+
+    const loadingBg = this.add.image(width / 2, height / 2, "loading-bar-bg");
+
     loadingBg.setDisplaySize(400, 30);
 
-    // Create progress bar
-    const loadingBar = this.add.sprite(
-      width / 2 - 190, // Left edge of the loading bg
-      height / 2,
-      "loading-bar"
-    );
+    // Create progress bar using graphics
+    const loadingBar = this.add.graphics();
+    loadingBar.x = width / 2 - 190;
+    loadingBar.y = height / 2 - 10; // Center vertically
 
-    // Set origin to left
-    loadingBar.setOrigin(0, 0.5);
-
-    // Initially scale to 0
-    loadingBar.setScale(0, 1);
-
-    // Set display width to match loading background
-    loadingBar.setDisplaySize(380, 20);
+    // Initially draw empty bar
+    loadingBar.fillStyle(0x000000, 0);
+    loadingBar.fillRect(0, 0, 380, 20);
 
     // Listen to the progress event
     this.load.on("progress", (value) => {
-      // Scale the loading bar based on the progress value (0 to 1)
-      loadingBar.setScale(value, 1);
+      // Clear previous drawing
+      loadingBar.clear();
+
+      // Draw the progress bar
+      loadingBar.fillStyle(0x8b4513); // Dark brown color
+      loadingBar.fillRect(0, 0, 380 * value, 20);
     });
 
     // Clean up when loading completes
